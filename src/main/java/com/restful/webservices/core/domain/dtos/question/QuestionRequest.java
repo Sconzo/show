@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.List;
 
@@ -27,12 +26,8 @@ public class QuestionRequest implements Serializable {
     @NotNull
     private String level;
 
-    private Long multipleChoiceAnswer;
-
-    private Boolean trueOrFalseAnswer;
-
     @NotNull
-    private List<String> answersDescription;
+    private List<OptionObject> options;
 
     @NotNull
     private Long sessionId;

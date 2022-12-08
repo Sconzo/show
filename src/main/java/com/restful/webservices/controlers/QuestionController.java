@@ -3,12 +3,14 @@ package com.restful.webservices.controlers;
 import com.restful.webservices.core.domain.dtos.question.QuestionRequest;
 import com.restful.webservices.core.domain.dtos.question.QuestionResponse;
 import com.restful.webservices.core.services.QuestionService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/question")
 public class QuestionController {
 
@@ -28,7 +30,9 @@ public class QuestionController {
         return questionResponse;
     }
 
-    @PostMapping(path = "")
+    @PostMapping(
+            path = "",
+            consumes = MediaType.APPLICATION_JSON_VALUE )
     public QuestionResponse createQuestion(
             @RequestBody @Valid QuestionRequest questionRequest,
             HttpServletResponse servletResponse) {
