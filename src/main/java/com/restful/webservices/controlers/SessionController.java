@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/session")
@@ -34,6 +35,15 @@ public class SessionController {
             HttpServletResponse servletResponse) {
 
         SessionResponse sessionResponse = sessionService.createSession(sessionRequest);
+
+        return sessionResponse;
+    }
+
+    @GetMapping(path = "/all")
+    public List<SessionResponse> getAllSessions(
+            HttpServletResponse servletResponse) {
+
+        List<SessionResponse> sessionResponse = sessionService.getAllSession();
 
         return sessionResponse;
     }

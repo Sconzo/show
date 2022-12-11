@@ -7,6 +7,7 @@ import com.restful.webservices.core.mappers.SessionMapper;
 import com.restful.webservices.core.persistence.repositories.SessionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,5 +39,9 @@ public class SessionService {
         }
 
         return sessionResponse;
+    }
+
+    public List<SessionResponse> getAllSession() {
+        return sessionRepository.findAllAndSortByCreationDate();
     }
 }

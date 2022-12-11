@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @Builder
@@ -18,4 +19,5 @@ public class SessionResponse implements Serializable {
     private String sessionName;
     private Long numberOfQuestions;
     private Long numberOfGroups;
+    private Date createdIn;
 }
