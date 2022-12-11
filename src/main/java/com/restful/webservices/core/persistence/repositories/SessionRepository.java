@@ -10,10 +10,13 @@ import java.util.List;
 
 @Repository
 public interface SessionRepository extends JpaRepository<SessionEntity,Long> {
-    @Query(value =
-            "SELECT new com.restful.webservices.core.domain.dtos.session.SessionResponse( " +
+    @Query(value = "SELECT new com.restful.webservices.core.domain.dtos.session.SessionResponse( " +
             "ts.id, ts.sessionName, ts.numberOfQuestions, ts.numberOfGroups, ts.createdIn) " +
-            "from SessionEntity ts " +
+            "FROM SessionEntity ts " +
             "ORDER BY ts.createdIn DESC")
     List<SessionResponse> findAllAndSortByCreationDate();
+
+    @Query(value = "SELECT ts from SessionEntity ts " +
+            "WHERE ts.id in :ids")
+    List<SessionEntity> findAllPossibleSessions(List<Long> ids);
 }

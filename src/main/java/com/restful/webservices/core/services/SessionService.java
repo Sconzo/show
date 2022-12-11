@@ -26,7 +26,7 @@ public class SessionService {
 
         sessionRepository.save(sessionEntity);
 
-        return null;
+        return new SessionResponse();
     }
 
     public SessionResponse getSession(Long id) {
