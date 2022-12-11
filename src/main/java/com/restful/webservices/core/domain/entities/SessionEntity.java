@@ -33,15 +33,15 @@ public class SessionEntity {
     private Long numberOfGroups;
 
     @Column(name = "cards",nullable = false)
-    private Long cards;
+    private Boolean cards;
 
     @Column(name = "studentsHelp",nullable = false)
-    private Long students;
+    private Boolean students;
 
     @Column(name = "skips",nullable = false)
-    private Long skips;
+    private Boolean skips;
 
     @Column(name = "audienceHelp",nullable = false)
-    private Long audienceHelp;
+    private Boolean audienceHelp;
 
 }
