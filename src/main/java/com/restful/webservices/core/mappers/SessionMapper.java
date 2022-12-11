@@ -13,9 +13,9 @@ public class SessionMapper {
     public static SessionEntity requestToEntity(SessionRequest sessionRequest){
 
         return SessionEntity.builder().sessionName(sessionRequest.getSessionName())
-                .numberOfQuestions(sessionRequest.getNumberOfQuestions()).numberOfChallengers(sessionRequest.getNumberOfChallengers())
-                .numberOfGroups(sessionRequest.getNumberOfGroups()).cards(sessionRequest.getCardsLeft()).skips(sessionRequest.getSkipsLeft())
-                .students(sessionRequest.getStudentsLeft()).audienceHelp(sessionRequest.getAudienceHelpLeft()).build();
+                .numberOfQuestions(sessionRequest.getQuestionsPerChallenger()).numberOfChallengers(sessionRequest.getNumberOfChallengers())
+                .numberOfGroups(sessionRequest.getNumberOfGroups()).cards(sessionRequest.getCards()).skips(sessionRequest.getSkips())
+                .students(sessionRequest.getStudentsHelp()).audienceHelp(sessionRequest.getAudienceHelp()).build();
     }
 
     public static SessionResponse entityToResponse(SessionEntity sessionEntity) {
