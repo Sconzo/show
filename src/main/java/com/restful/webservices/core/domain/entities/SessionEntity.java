@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -35,13 +36,16 @@ public class SessionEntity {
     @Column(name = "cards",nullable = false)
     private Boolean cards;
 
-    @Column(name = "studentsHelp",nullable = false)
+    @Column(name = "students_help",nullable = false)
     private Boolean students;
 
     @Column(name = "skips",nullable = false)
     private Boolean skips;
 
-    @Column(name = "audienceHelp",nullable = false)
+    @Column(name = "audience_help",nullable = false)
     private Boolean audienceHelp;
 
+    @Column(name = "created_in", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdIn;
 }

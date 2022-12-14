@@ -10,7 +10,11 @@ import com.restful.webservices.core.persistence.repositories.ChallengerRepositor
 import com.restful.webservices.core.persistence.repositories.SessionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class ChallengerService {
 
@@ -24,16 +28,16 @@ public class ChallengerService {
         this.sessionRepository = sessionRepository;
     }
 
-    public ChallengerResponse createChallenger(ChallengerRequest challengerRequest) {
+    public ChallengerResponse createChallenger(List<ChallengerRequest> challengerRequest) {
         ChallengerResponse challengerResponse = new ChallengerResponse();
-        ChallengerEntity challengerEntity = new ChallengerEntity();
-        Optional<SessionEntity> sessionEntity = sessionRepository.findById(challengerRequest.getSessionId());
+        List<ChallengerEntity> challengerEntityList = new ArrayList<>();
+        List<SessionEntity> sessionEntityList = sessionRepository.findAllPossibleSessions(
+                challengerRequest.stream().map(ChallengerRequest::getSessionId).collect(Collectors.toList()));
 
-        if(sessionEntity.isPresent()){
-            challengerEntity = ChallengerMapper.requestToEntity(challengerRequest, sessionEntity.get());
-        }
+        challengerEntityList = ChallengerMapper.requestToEntity(challengerRequest, sessionEntityList);
 
-        challengerRepository.save(challengerEntity);
+
+        challengerRepository.saveAll(challengerEntityList);
 
         return challengerResponse;
     }
