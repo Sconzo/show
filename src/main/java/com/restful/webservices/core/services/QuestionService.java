@@ -13,8 +13,10 @@ import com.restful.webservices.core.persistence.repositories.QuestionRepository;
 import com.restful.webservices.core.persistence.repositories.SessionRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -34,19 +36,16 @@ public class QuestionService {
         this.optionMapper = optionMapper;
     }
 
-    public QuestionResponse createQuestion(QuestionRequest questionRequest) {
+    public QuestionResponse createQuestion(List<QuestionRequest> questionRequestList) {
         QuestionEntity questionEntity = new QuestionEntity();
 
-        Optional<SessionEntity> sessionEntity = sessionRepository.findById(questionRequest.getSessionId());
-
-        if(sessionEntity.isPresent()){
-            questionEntity = QuestionMapper.requestToEntity(questionRequest, sessionEntity.get());
-        }
-
-        questionRepository.save(questionEntity);
-        if(Objects.equals(questionRequest.getType(),TypeEnum.MULTIPLE_CHOICE.name())) {
-            OptionEntity optionEntity = OptionMapper.requestToEntity(questionRequest, questionEntity);
-            optionRepository.save(optionEntity);
+        for(QuestionRequest questionRequest : questionRequestList){
+            questionEntity = QuestionMapper.requestToEntity(questionRequest, sessionRepository.findById(questionRequest.getSessionId()).get());
+            questionRepository.save(questionEntity);
+            if(Objects.equals(questionRequest.getType(),TypeEnum.MULTIPLE_CHOICE.name())) {
+                OptionEntity optionEntity = OptionMapper.requestToEntity(questionRequest, questionEntity);
+                optionRepository.save(optionEntity);
+            }
         }
         return null;
     }

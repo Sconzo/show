@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -34,7 +35,7 @@ public class QuestionController {
             path = "",
             consumes = MediaType.APPLICATION_JSON_VALUE )
     public QuestionResponse createQuestion(
-            @RequestBody @Valid QuestionRequest questionRequest,
+            @RequestBody @Valid List<QuestionRequest> questionRequest,
             HttpServletResponse servletResponse) {
 
         questionService.createQuestion(questionRequest);
