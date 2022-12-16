@@ -11,7 +11,8 @@ import java.util.List;
 @Repository
 public interface SessionRepository extends JpaRepository<SessionEntity,Long> {
     @Query(value = "SELECT new com.restful.webservices.core.domain.dtos.session.SessionResponse( " +
-            "ts.id, ts.sessionName, ts.numberOfQuestions, ts.numberOfGroups, ts.createdIn) " +
+            "ts.sessionName, ts.numberOfQuestions, ts.numberOfGroups, ts.numberOfChallengers, ts.cards, ts.students, " +
+            "ts.skips, ts.audienceHelp, ts.id, ts.createdIn) " +
             "FROM SessionEntity ts " +
             "ORDER BY ts.createdIn DESC")
     List<SessionResponse> findAllAndSortByCreationDate();
