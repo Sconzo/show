@@ -1,5 +1,6 @@
 package com.restful.webservices.core.mappers;
 
+import com.restful.webservices.core.domain.dtos.LongAndStringDTO;
 import com.restful.webservices.core.domain.dtos.question.OptionObject;
 import com.restful.webservices.core.domain.dtos.question.QuestionRequest;
 import com.restful.webservices.core.domain.dtos.question.QuestionResponse;
@@ -8,6 +9,8 @@ import com.restful.webservices.core.domain.entities.QuestionEntity;
 import com.restful.webservices.core.domain.entities.SessionEntity;
 import com.restful.webservices.core.domain.enums.LevelEnum;
 import com.restful.webservices.core.domain.enums.TypeEnum;
+import com.restful.webservices.core.persistence.repositories.OptionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,6 +20,8 @@ import java.util.Optional;
 
 @Component
 public class QuestionMapper {
+
+
 
     public static QuestionEntity requestToEntity(QuestionRequest request, SessionEntity session){
         Long multipleChoiceAnswer = null;
@@ -57,22 +62,32 @@ public class QuestionMapper {
                 .questionDescription(questionEntity.getQuestionDescription()).sessionId(questionEntity.getSession().getId())
                 .sessionName(questionEntity.getSession().getSessionName()).type(questionEntity.getType().name())
                 .level(questionEntity.getLevel().name()).build();
-
-        List<String> options = new ArrayList<>();
-//        if(Objects.equals(questionEntity.getType(),TypeEnum.MULTIPLE_CHOICE)){
-//            options.add(questionEntity.getOption1());
-//            options.add(questionEntity.getOption2());
-//            options.add(questionEntity.getOption3());
-//            options.add(questionEntity.getOption4());
-//        }
-//        else if (Objects.equals(questionEntity.getType(),TypeEnum.TRUE_OR_FALSE)){
-//            options.add(questionEntity.getOption1());
-//            options.add(questionEntity.getOption2());
-//        }
-//        else{
-//            //throw error
-//        }
-        questionResponse.setOptions(options);
         return questionResponse;
+    }
+
+    public static void setOptions(QuestionResponse questionResponse, OptionEntity optionEntity) {
+        List<LongAndStringDTO> list = new ArrayList<>();
+        LongAndStringDTO dto1 = LongAndStringDTO.builder()
+                .id(1L)
+                .description(optionEntity.getOption1())
+                .build();
+        list.add(dto1);
+        LongAndStringDTO dto2 = LongAndStringDTO.builder()
+                .id(2L)
+                .description(optionEntity.getOption2())
+                .build();
+        list.add(dto2);
+        LongAndStringDTO dto3 = LongAndStringDTO.builder()
+                .id(3L)
+                .description(optionEntity.getOption3())
+                .build();
+        list.add(dto3);
+        LongAndStringDTO dto4 = LongAndStringDTO.builder()
+                .id(4L)
+                .description(optionEntity.getOption4())
+                .build();
+        list.add(dto4);
+
+        questionResponse.setOptions(list);
     }
 }

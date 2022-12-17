@@ -1,5 +1,6 @@
 package com.restful.webservices.core.domain.dtos.question;
 
+import com.restful.webservices.core.domain.dtos.LongAndStringDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class QuestionResponse implements Serializable {
     private String questionDescription;
     private String sessionName;
     private Long sessionId;
-    private List<String> options;
+    private List<LongAndStringDTO> options;
     private String type;
     private String level;
 }
