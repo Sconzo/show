@@ -31,6 +31,15 @@ public class QuestionController {
         return questionResponse;
     }
 
+    @GetMapping(path = "/{sessionId}")
+    public List<QuestionResponse> getQuestionsForChallenger(
+            @PathVariable Long sessionId,
+            HttpServletResponse servletResponse) {
+
+        List<QuestionResponse> questionResponse = questionService.getQuestionsForChallenger(sessionId);
+
+        return questionResponse;
+    }
     @PostMapping(
             path = "",
             consumes = MediaType.APPLICATION_JSON_VALUE )
@@ -45,11 +54,11 @@ public class QuestionController {
 
     @GetMapping(path = "/check")
     public Boolean checkAnswer(
-            @RequestParam Long choice,
+            @RequestParam Long choiceId,
             @RequestParam Long questionId,
             HttpServletResponse servletResponse) {
 
-        Boolean response = questionService.checkAnswer(choice, questionId);
+        Boolean response = questionService.checkAnswer(choiceId, questionId);
 
         return response;
     }
