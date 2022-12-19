@@ -6,7 +6,6 @@ import com.restful.webservices.core.domain.entities.SessionEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Component
 public class SessionMapper {
@@ -15,7 +14,7 @@ public class SessionMapper {
 
         return SessionEntity.builder()
                 .sessionName(sessionRequest.getSessionName())
-                .numberOfQuestions(sessionRequest.getQuestionsPerChallenger())
+                .numberOfQuestions(sessionRequest.getNumberOfQuestions())
                 .numberOfChallengers(sessionRequest.getNumberOfChallengers())
                 .numberOfGroups(sessionRequest.getNumberOfGroups())
                 .cards(sessionRequest.getCards())
