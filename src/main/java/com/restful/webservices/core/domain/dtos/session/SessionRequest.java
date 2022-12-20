@@ -16,7 +16,7 @@ public class SessionRequest {
     private String sessionName;
 
     @NotNull
-    private Long questionsPerChallenger;
+    private Long numberOfQuestions;
 
     @NotNull
     private Long numberOfGroups;
