@@ -44,4 +44,8 @@ public class SessionService {
     public List<SessionResponse> getAllSession() {
         return sessionRepository.findAllAndSortByCreationDate();
     }
+
+    public Long getNumberOfQuestionsCreated(Long sessionId) {
+        return sessionRepository.getNumberOfQuestionsCreated(sessionId);
+    }
 }

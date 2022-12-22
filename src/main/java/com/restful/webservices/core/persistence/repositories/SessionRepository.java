@@ -20,4 +20,9 @@ public interface SessionRepository extends JpaRepository<SessionEntity,Long> {
     @Query(value = "SELECT ts from SessionEntity ts " +
             "WHERE ts.id in :ids")
     List<SessionEntity> findAllPossibleSessions(List<Long> ids);
+
+    @Query(value = "SELECT COUNT(tq) from QuestionEntity tq " +
+            "LEFT JOIN SessionEntity ts on ts.id = tq.session.id " +
+            "WHERE ts.id = :id")
+    Long getNumberOfQuestionsCreated(Long id);
 }

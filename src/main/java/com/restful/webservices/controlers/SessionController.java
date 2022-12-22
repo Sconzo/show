@@ -47,4 +47,14 @@ public class SessionController {
 
         return sessionResponse;
     }
+
+    @GetMapping(path = "/questions-created/{sessionId}")
+    public Long getNumberQuestionsCreated(
+            @PathVariable Long sessionId,
+            HttpServletResponse servletResponse) {
+
+        Long sessionResponse = sessionService.getNumberOfQuestionsCreated(sessionId);
+
+        return sessionResponse;
+    }
 }
