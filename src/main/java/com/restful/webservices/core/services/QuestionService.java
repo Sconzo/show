@@ -4,6 +4,7 @@ import com.restful.webservices.core.domain.dtos.question.QuestionRequest;
 import com.restful.webservices.core.domain.dtos.question.QuestionResponse;
 import com.restful.webservices.core.domain.entities.OptionEntity;
 import com.restful.webservices.core.domain.entities.QuestionEntity;
+import com.restful.webservices.core.domain.enums.LevelEnum;
 import com.restful.webservices.core.domain.enums.TypeEnum;
 import com.restful.webservices.core.mappers.OptionMapper;
 import com.restful.webservices.core.mappers.QuestionMapper;
@@ -13,10 +14,7 @@ import com.restful.webservices.core.persistence.repositories.SessionRepository;
 import com.restful.webservices.exception.notfound.QuestionNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class QuestionService {
@@ -91,11 +89,55 @@ public class QuestionService {
 
     public List<QuestionResponse> getQuestionsForChallenger(Long sessionId) {
         List<QuestionResponse> responseList = new ArrayList<>();
+        List<QuestionResponse> easyList = new ArrayList<>();
+        List<QuestionResponse> intermediateList = new ArrayList<>();
+        List<QuestionResponse> hardList = new ArrayList<>();
         List<QuestionEntity> entityList = questionRepository.findAllBySessionId(sessionId);
-
+        Collections.shuffle(entityList);
         for(QuestionEntity questionEntity : entityList){
             QuestionResponse questionResponse = getQuestionResponse(questionEntity);
-            responseList.add(questionResponse);
+            if(LevelEnum.EASY.name().equals(questionResponse.getLevel())){
+                easyList.add((questionResponse));
+            }
+            else if(LevelEnum.INTERMEDIATE.name().equals(questionResponse.getLevel())){
+                intermediateList.add((questionResponse));
+            }
+            else if(LevelEnum.HARD.name().equals(questionResponse.getLevel())){
+                hardList.add((questionResponse));
+            }
+        }
+
+        if(!entityList.isEmpty()){
+            int numberOfChallengers = entityList.get(0).getSession().getNumberOfChallengers().intValue();
+
+            int partitionSizeEasy = Math.max(easyList.size()/numberOfChallengers, 1);
+            List<List<QuestionResponse>> partitionsEasy = new ArrayList<>();
+            for (int i=0; i<easyList.size(); i += partitionSizeEasy) {
+                partitionsEasy.add(easyList.subList(i, Math.min(i + partitionSizeEasy, easyList.size())));
+            }
+            int partitionSizeIntermediate = Math.max(intermediateList.size()/numberOfChallengers,1);
+            List<List<QuestionResponse>> partitionsIntermediate = new ArrayList<>();
+            for (int i=0; i<intermediateList.size(); i += partitionSizeIntermediate) {
+                partitionsIntermediate.add(intermediateList.subList(i, Math.min(i + partitionSizeIntermediate, intermediateList.size())));
+            }
+            int partitionSizeHard = Math.max(hardList.size()/numberOfChallengers,1);
+            List<List<QuestionResponse>> partitionsHard = new ArrayList<>();
+            for (int i=0; i<hardList.size(); i += partitionSizeHard) {
+                partitionsHard.add(hardList.subList(i, Math.min(i + partitionSizeHard, hardList.size())));
+            }
+
+            int max = Math.max(partitionsEasy.size(), Math.max(partitionsIntermediate.size(), partitionsHard.size()));
+            for(int k=0;k<max;k++){
+                if(partitionsEasy.size() > k){
+                    responseList.addAll(partitionsEasy.get(k));
+                }
+                if(partitionsIntermediate.size() > k){
+                    responseList.addAll(partitionsIntermediate.get(k));
+                }
+                if(partitionsHard.size() > k){
+                    responseList.addAll(partitionsHard.get(k));
+                }
+            }
         }
 
         return responseList;
