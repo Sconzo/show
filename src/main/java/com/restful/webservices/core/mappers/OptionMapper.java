@@ -12,18 +12,11 @@ public class OptionMapper {
 
     public static OptionEntity requestToEntity(QuestionRequest questionRequest, QuestionEntity questionEntity) {
         OptionEntity optionEntity = new OptionEntity();
-        if(Objects.equals(questionRequest.getAnswersDescription().size(),4)) {
-            optionEntity.setOption1(questionRequest.getAnswersDescription().get(0));
-            optionEntity.setOption2(questionRequest.getAnswersDescription().get(1));
-            optionEntity.setOption3(questionRequest.getAnswersDescription().get(2));
-            optionEntity.setOption4(questionRequest.getAnswersDescription().get(3));
-        }
-        else if(Objects.equals(questionRequest.getAnswersDescription().size(),2)){
-            optionEntity.setOption1(questionRequest.getAnswersDescription().get(0));
-            optionEntity.setOption2(questionRequest.getAnswersDescription().get(1));
-        }
-        else{
-            //throw error
+        if(Objects.equals(questionRequest.getOptions().size(),4)) {
+            optionEntity.setOption1(questionRequest.getOptions().get(0).getOptionText());
+            optionEntity.setOption2(questionRequest.getOptions().get(1).getOptionText());
+            optionEntity.setOption3(questionRequest.getOptions().get(2).getOptionText());
+            optionEntity.setOption4(questionRequest.getOptions().get(3).getOptionText());
         }
         optionEntity.setQuestion(questionEntity);
         return optionEntity;

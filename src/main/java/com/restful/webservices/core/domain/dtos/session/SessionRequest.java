@@ -25,15 +25,15 @@ public class SessionRequest {
     private Long numberOfChallengers;
 
     @NotNull
-    private Long cardsLeft;
+    private Boolean cards;
 
     @NotNull
-    private Long studentsLeft;
+    private Boolean studentsHelp;
 
     @NotNull
-    private Long skipsLeft;
+    private Boolean skips;
 
     @NotNull
-    private Long audienceHelpLeft;
+    private Boolean audienceHelp;
 
 }

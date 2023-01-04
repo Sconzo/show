@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/challenger")
@@ -15,6 +16,7 @@ public class ChallengerController {
     private final ChallengerService challengerService;
 
     public ChallengerController(ChallengerService challengerService) {
+
         this.challengerService = challengerService;
     }
 
@@ -28,7 +30,7 @@ public class ChallengerController {
 
     @PostMapping(path = "")
     public ChallengerResponse createSession(
-            @RequestBody @Valid ChallengerRequest questionRequest,
+            @RequestBody @Valid List<ChallengerRequest> questionRequest,
             HttpServletResponse servletResponse) {
 
         ChallengerResponse challengerResponse = challengerService.createChallenger(questionRequest);
